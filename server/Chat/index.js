@@ -1,6 +1,6 @@
-var express = require('express')
-var Storage=require('../Storage')
-var Router = express.Router()
+const express = require('express'), 
+	  Storage=require('../Storage'),
+	  Router = express.Router()
 
 Router.get('/users',function(req,res){
 
@@ -19,39 +19,39 @@ Router.get('/messages',function(req,res){
 		res.sendStatus(500).json(error)
 	})
 })
-Router.post('/users',function(req,res){
-	var user =req.body.users
+Router.post('/users',(req,res) =>{
+	let user =req.body.users
 	Storage.getData('users')
-		   .then(function(users){
-		   	return new promise(function(resolve,reject){
+		   .then((users)=>{
+		   	return new promise((resolve,reject)=>{
 		   		Storage.saveData('users',user, users)
-		   		.then(function(message){
+		   		.then((message)=>{
 		   			resolve(message)
-		   		}).catch(function(err){
+		   		}).catch((err)=>{
 		   			reject(err)
 		   		})
 		   	})
-		   }).then(function(message){
+		   }).then((message)=>{
 		   	res.json(message)
-		   }).catch(function(err){
+		   }).catch((err)=>{
 		   	res.sendStatus(500).json(err)
 		   })
 })
-Router.post('/messages',function(req,res){
-	var message =req.body.message
+Router.post('/messages',(req,res)=>{
+	let message =req.body.message
 	Storage.getData('messages')
-		   .then(function(messages){
-		   	return new promise(function(resolve,reject){
+		   .then((messages)=>{
+		   	return new promise((resolve,reject)=>{
 		   		Storage.saveData('users',message, messages)
-		   		.then(function(message){
+		   		.then((message)=>{
 		   			resolve(message)
-		   		}).catch(function(err){
+		   		}).catch((err)=>{
 		   			reject(err)
 		   		})
 		   	})
-		   }).then(function(message){
+		   }).then((message)=>{
 		   	res.json(message)
-		   }).catch(function(err){
+		   }).catch((err)=>{
 		   	res.sendStatus(500).json(err)
 		   })
 })

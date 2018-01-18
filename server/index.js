@@ -1,13 +1,13 @@
 
 
-var bodyParser=require('body-parser'),
+const bodyParser=require('body-parser'),
 	http   	  =require('http'),
 	express   =require('express'),
 
 	chat=require('./Chat'),
 	socketio=require('socket.io'),
 
- 	port 	  =port=process.env.PORT || 3000,
+ const	port 	  =port=process.env.PORT || 3000,
 	app 	  =express(),
 	server    =http.createServer(app),
 	io=socketio(server)
@@ -18,23 +18,23 @@ app.use(bodyParser.urlencoded({extended:true}))
 app.use('./Chat',chat)
 app.use(express.static('public'))
 
-server.listen(port,function(){
-	console.log("server is runing on port"+port)
-})
+server.listen(port,() =>console.log("server is runing on port"+port))
+	
+
 
 io.on('connection', function(socket){
 	console.log('new user connected, socket: '+socket.id)
 
-	socket.on('userJoin',function(user){
+	socket.on('userJoin',user =>{
 		socket.user=user
 		socket.broadcast.emit('userJoin',user)
 	})
-	socket.on('message',function(message){
+	socket.on('message',message =>{
 		socket.broadcast.emit('message',message)
 	})
-	socket.on('disconnect',function(){
+	socket.on('disconnect',() =>{
 		if (socket.hasOwnProperty('user')) {
-			deleteUser(socket.user, function(err,confirm) {
+			deleteUser(socket.user, err, confirm => {
 				// body...
 				if(err)throw err
 			})
